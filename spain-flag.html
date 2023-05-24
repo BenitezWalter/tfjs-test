@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+  </head>
+  <body>
+    <canvas id="spain"></canvas>
+    <canvas id="spain-grande"></canvas>
+    <canvas id="spain-rotate"></canvas>
+
+    <script>
+      const pixelMatrix = [];
+      const pixelMatrixGrande = [];
+      const pixelMatrixRotate = [];
+      const redColor = [198, 11, 30];
+      const yellowColor = [255, 196, 0];
+
+      for (let y = 0; y < 25; y++) {
+        const row = [];
+        for (let x = 0; x < 50; x++) {
+          if (y >= 9 && y <= 15 && x >= 0 && x <= 50) {
+            row.push(yellowColor);
+          } else {
+            row.push(redColor);
+          }
+        }
+        pixelMatrix.push(row);
+      }
+
+      const pixels = tf.tensor(pixelMatrix, [25, 50, 3], "int32");
+      const canvasSpain = document.getElementById("spain");
+      tf.browser.toPixels(pixels, canvasSpain).then(() => {
+        console.log(tf.memory().numBytes);
+      });
+
+      for (let y = 0; y < 50; y++) {
+        const row = [];
+        for (let x = 0; x < 100; x++) {
+          if (y >= 18 && y <= 30 && x >= 0 && x <= 100) {
+            row.push(yellowColor);
+          } else {
+            row.push(redColor);
+          }
+        }
+        pixelMatrixGrande.push(row);
+      }
+
+      const canvasSpainGrande = document.getElementById("spain-grande");
+      const spainGrande = tf.tensor(pixelMatrixGrande, [50, 100, 3], "int32");
+
+      tf.browser.toPixels(spainGrande, canvasSpainGrande).then(() => {
+        console.log(tf.memory().numBytes);
+      });
+
+      for (let y = 0; y < 100; y++) {
+        const row = [];
+        for (let x = 0; x < 50; x++) {
+          if (y >= 0 && y <= 100 && x >= 18 && x <= 30) {
+            row.push(yellowColor);
+          } else {
+            row.push(redColor);
+          }
+        }
+        pixelMatrixRotate.push(row);
+      }
+
+      const canvasSpainRotate = document.getElementById("spain-rotate");
+      const spainRotate = tf.tensor(pixelMatrixRotate, [100, 50, 3], "int32");
+
+      tf.browser.toPixels(spainRotate, canvasSpainRotate).then(() => {
+        console.log(tf.memory().numBytes);
+      });
+    </script>
+  </body>
+</html>
